@@ -1,0 +1,41 @@
+{
+  "name": "s08-okanban-monorepo-red-enzoclock",
+  "version": "1.0.0",
+  "description": "Okanban Mono-dépôt",
+  "main": "server.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "keywords": [
+    "kanban",
+    "gestion de tâches"
+  ],
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon --ignore client server.js",
+    "test": "mocha --recursive ./src/**/*.test.js --require test.config.js --require test.hooks.js",
+    "db:create": "node src/migrations/01.createTables.js",
+    "db:seed": "node src/migrations/02.seedTables.js",
+    "db:reset": "npm run db:create && npm run db:seed",
+    "postinstall": "npm install --prefix client",
+    "build": "npm run build --prefix client"
+  },
+  "author": "muffin@oclock.io",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "joi": "^17.12.2",
+    "pg": "^8.11.3",
+    "sanitize-html": "^2.12.1",
+    "sequelize": "^6.37.1"
+  },
+  "devDependencies": {
+    "chai": "^5.1.0",
+    "eslint": "^8.57.0",
+    "mocha": "^10.3.0",
+    "nodemon": "^3.1.0"
+  }
+}

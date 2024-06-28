@@ -1,0 +1,26 @@
+{
+  "name": "s07-okanban-frontend-red-enzoclock",
+  "version": "1.0.0",
+  "description": "Okanban Frontend",
+  "directories": {
+    "doc": "docs"
+  },
+  "keywords": [
+    "kanban"
+  ],
+  "author": "muffin@oclock.io",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "bulma-toast": "^2.4.4",
+    "eslint": "^8.57.0",
+    "sortablejs": "^1.15.2",
+    "vite": "^5.1.5"
+  }
+}

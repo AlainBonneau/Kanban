@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>oKanban</title>
+
+    <!-- Bulma (make sure to use last updated version)-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+    <!-- OPTION 1 pour installer SortableJS -->
+    <!-- <script defer src="http://SortableJS.github.io/Sortable/Sortable.js"></script> -->
+
+    <!-- Custom CSS-->
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+    <!-- Font Awesome (using version 5, as version >=6 does not provide an out-of-the-box CDN)-->
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
+
+    <!-- Custom JS -->
+    <script defer src="./assets/js/index.js" type="module"></script>
+</head>
+
+<body>
+  <header>
+    <h1 class="title is-1 my-5">oKanban !</h1>
+  </header>
+
+  <main class="flex-container">
+
+    <div id="lists-container" class="flex-container">
+      <!-- Ici, on insère nos listes récupérées via l'API -->
+    </div>
+
+    <!-- Add a list button -->
+    <section class="message" aria-labelledby="add-list-section">
+      <div class="message-header">
+        <div id="add-list-section">Ajouter une liste</div>
+      </div>
+      <div class="message-body">
+        <button class="button is-large is-fullwidth" id="add-list-button"><i class="fas fa-plus"></i>
+          <span class="is-sr-only">Ajouter une liste</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Add a list modal -->
+  <div class="modal" id="add-list-modal">
+    <div class="modal-background close"></div>
+    <div class="modal-card">
+      <form>
+        <div class="modal-card-head">
+          <p class="modal-card-title">Ajouter une liste</p>
+          <button class="delete close" type="button" aria-label="close"></button>
+        </div>
+
+        <div class="modal-card-body">
+          <label class="label" for="add-list-title">Title</label>
+          <input class="input" id="add-list-title" type="text" name="title" required placeholder="Title de la liste">
+        </div>
+
+        <div class="modal-card-foot">
+          <button class="button is-success">Ajouter</button>
+          <button class="button close" type="button">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit list modal -->
+  <div class="modal" id="edit-list-modal">
+    <div class="modal-background close"></div>
+    <div class="modal-card">
+      <form id="edit-list-form">
+        <div class="modal-card-head">
+          <p class="modal-card-title">Modifier une liste</p>
+          <button class="delete close" type="button" aria-label="close"></button>
+        </div>
+
+        <div class="modal-card-body">
+          <label class="label" for="edit-list-title">Nouveau titre</label>
+          <input class="input" id="edit-list-title" type="text" name="title" required placeholder="Titre de la liste">
+        </div>
+
+        <div class="modal-card-foot">
+          <button class="button is-success">Modifier</button>
+          <button class="button close" type="button">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete list modal -->
+  <div class="modal" id="delete-list-modal">
+    <div class="modal-background close"></div>
+    <div class="modal-card">
+      <form id="delete-list-form">
+        <div class="modal-card-head">
+          <p class="modal-card-title">Supprimer une liste</p>
+          <button class="delete close" type="button" aria-label="close"></button>
+        </div>
+
+        <div class="modal-card-body">
+          <p>Êtes-vous sûr de vouloir supprimer cette liste ?</p>
+          <p><strong>Cette opération est irréversible.</strong></p>
+        </div>
+
+        <div class="modal-card-foot">
+          <button class="button is-danger">Supprimer</button>
+          <button class="button close" type="button">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add a card modal -->
+  <div class="modal" id="add-card-modal">
+    <div class="modal-background close"></div>
+    <div class="modal-card">
+      <form id="add-card-form">
+        <div class="modal-card-head">
+          <p class="modal-card-title">Ajouter une carte</p>
+          <button class="delete close" type="button" aria-label="close"></button>
+        </div>
+
+        <div class="modal-card-body">
+          <label for="add-card-content" class="label">Contenu</label>
+          <input id="add-card-content" class="input" type="text" name="content" required placeholder="Contenu de la carte">
+
+          <label for="add-card-color" class="label">Couleur</label>
+          <input id="add-card-color" class="input" type="color" name="color" required value="#FFFFFF">
+        </div>
+
+        <div class="modal-card-foot">
+          <button class="button is-success">Ajouter</button>
+          <button class="button close" type="button">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit a card modal -->
+  <div class="modal" id="edit-card-modal">
+    <div class="modal-background close"></div>
+    <div class="modal-card">
+      <form id="edit-card-form">
+        <div class="modal-card-head">
+          <p class="modal-card-title">Modifier une carte</p>
+          <button class="delete close" type="button" aria-label="close"></button>
+        </div>
+
+        <div class="modal-card-body">
+          <label for="edit-card-content" class="label">Nouveau contenu</label>
+          <input id="edit-card-content" class="input" type="text" name="content" required placeholder="Nouveau contenu de la carte">
+
+          <label for="edit-card-color" class="label">Nouvelle couleur</label>
+          <input id="edit-card-color" class="input" type="color" name="color" required>
+        </div>
+
+        <div class="modal-card-foot">
+          <button class="button is-success">Modifier</button>
+          <button class="button close" type="button">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete card modal -->
+  <div class="modal" id="delete-card-modal">
+    <div class="modal-background close"></div>
+    <div class="modal-card">
+      <form id="delete-card-form">
+        <div class="modal-card-head">
+          <p class="modal-card-title">Supprimer une carte</p>
+          <button class="delete close" type="button" aria-label="close"></button>
+        </div>
+
+        <div class="modal-card-body">
+          <p>Êtes-vous sûr de vouloir supprimer cette carte ?</p>
+          <p><strong>Cette opération est irréversible.</strong></p>
+        </div>
+
+        <div class="modal-card-foot">
+          <button class="button is-danger">Supprimer</button>
+          <button class="button close" type="button">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Error modal -->
+  <div class="modal" id="error-modal">
+    <div class="modal-background close"></div>
+    <div class="modal-card">
+      <div class="modal-card-head">
+        <p class="modal-card-title">❗️ Erreur ❗️</p>
+        <button class="delete close" type="button" aria-label="close"></button>
+      </div>
+
+      <div class="modal-card-body">
+        <p>Une erreur est survenue.</p>
+        <p>Merci de rafraichir la page ou réessayer plus tard.</p>
+      </div>
+
+      <div class="modal-card-foot">
+        <button class="button close" type="button">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<!-- Template pour une liste -->
+<template id="list-template">
+  <section class="message is-info" slot="list-id">
+    <div class="message-header list-header">
+      <div class="list-title" slot="list-title">TITRE_DE_LA_LISTE</div>
+      <div>
+        <button class="icon is-clickable" slot="drag-list-button"><i class="fas fa-arrows-alt"></i><span class="is-sr-only">Déplacer la liste</span></button>
+        <button class="icon is-clickable" slot="edit-list-button"><i class="fas fa-pen"></i><span class="is-sr-only">Modifier la liste</span></button>
+        <button class="icon is-clickable" slot="delete-list-button"><i class="fas fa-trash-alt"></i><span class="is-sr-only">Supprimer la liste</span></button>
+        <button class="icon is-clickable" slot="add-card-button"><i class="fas fa-plus"></i><span class="is-sr-only">Ajouter une carte dans la liste</span></button>
+      </div>
+    </div>
+
+    <div class="message-body" slot="list-content">
+      <!-- Cards go here -->
+    </div>
+  </section>
+</template>
+
+<!-- Template pour une carte -->
+<template id="card-template">
+  <article class="card is-clickable" slot="card-id">
+    <div class="card-header">
+      <div class="card-header-title has-text-weight-medium" slot="card-content">CONTENU_DE_LA_CARTE</div>
+      <div class="card-header-icon">
+        <span class="icon has-text-success" slot="edit-card-button"><i class="fas fa-pencil-alt"></i></span>
+        <span class="icon has-text-danger ml-2" slot="delete-card-button"><i class="fas fa-trash-alt"></i></span>
+      </div>
+    </div>
+  </article>
+</template>
+
+</html>

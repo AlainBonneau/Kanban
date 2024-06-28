@@ -1,0 +1,17 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module" // Necessaire pour ESM
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "indent": ["error", 2],
+    "semi": ["error", "always"]
+  },
+  "ignorePatterns": ["client/dist"] // Ignore le style du dossier dist (on s'en moque de lint le dossier généré et minifié)
+}
